@@ -5,44 +5,56 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import { useEffect, useState } from "react";
 
-function Home() {
-    const [items, setItems] = useState([])
+function Home({searchValue}) {
+  const [items, setItems] = useState([])
 
-    const [isLoading, setIsLoading] = useState(true)
-    useEffect(()=>{
-      fetch('https://65343efce1b6f4c59046a5a2.mockapi.io/items/test')
-      .then((res)=>{
+  const pizzas = items.filter(obj => {
+    if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+      return true;
+    }
+    return false
+  }).map((obj, key) => (<PizzaBlock key={obj.id} {...obj} />))
+  const skeleton = [...new Array(6)].map((_, key) => <Skeleton key={key} />)
+  const [isLoading, setIsLoading] = useState(true)
+  const [CategoryId, setCategoryId] = useState(0)
+  const [sortType, setSortType] = useState({
+    name: "популярности",
+    sortProperty: "raiting"
+  });
+
+
+  useEffect(() => {
+    setIsLoading(true);
+    const order = sortType.sortProperty.includes("-") ? 'asc' : 'desc'
+    const sortBy = sortType.sortProperty.replace("-", " ")
+    const category = CategoryId > 0 ? `category=${CategoryId}` : ''
+    const search = searchValue?`&search=${searchValue}`:" ";
+    fetch(`https://65343efce1b6f4c59046a5a2.mockapi.io/items/test?${category}&sortby=${sortBy}
+    &order=${order}${search}`)
+      .then((res) => {
         return res.json()
       })
-      .then((arr)=>{
-        setTimeout(() => {
-          setItems(arr)
-          setIsLoading(false)      
-        }, 1000);
-      })
-    }, [])
-  return (
+      .then((arr) => {
 
+        setItems(arr)
+        setIsLoading(false)
+      })
+
+    window.scrollTo(0, 0);
+  }, [CategoryId, sortType, searchValue])
+  return (
     <>
-          <div className="container">
-            <div className="content__top">
-              <Categories />
-              <Sort />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-            {
-              isLoading?[...new Array(6)].map((_,key)=><Skeleton 
-                key={key}
-              />):items.map((obj,key) => (
-                <PizzaBlock
-                  key={obj.id}
-                  {...obj}
-                />
-              ))
-            }
-            </div>
-          </div>
+      <div className="container">
+        <div className="content__top">
+          <Categories value={CategoryId} clickCategory={(i) => setCategoryId(i)} />
+          <Sort sortValue={sortType} onClickSort={(i) => setSortType(i)} />
+        </div>
+        <h2 className="content__title">Все пиццы</h2>
+        <div className="content__items">
+          {
+            isLoading ? skeleton : pizzas}
+        </div>
+      </div>
     </>
   )
 }

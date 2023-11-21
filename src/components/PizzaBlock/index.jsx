@@ -4,9 +4,9 @@ function PizzaBlock({imageUrl,title,sizes,price,types}) {
 
     const [activeIndex,setActiveIndex] = useState(0)
     const [activeTypeIndex, setActiveTypeIndex] = useState(0)
-
     const clickActiveIndex = (index) => setActiveIndex(index)
     const clicTypekActiveIndex = (index) => setActiveTypeIndex(index)
+
 
     const typeName = ["Тонкое", "Традиционное"]
 
@@ -56,8 +56,8 @@ function PizzaBlock({imageUrl,title,sizes,price,types}) {
                                     fill="white"
                                 />
                             </svg>
-                            <span>Добавить</span>
-                            <i>2</i>
+                            <span >Добавить</span>
+                            <i >0</i>
                         </div>
                     </div>
                 </div>

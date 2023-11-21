@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 
-function Sort() {
-    const sortFrom = ["популярности", "цене", "алфавиту"];
+function Sort({ onClickSort, sortValue }) {
+
+    const sortFrom = [
+    { name: "популярности (DESC)", sortProperty: "rainting" },
+    { name: "популярности (ASC)", sortProperty: "-rainting" },
+
+    { name: "цене (DESC)", sortProperty: "price" },
+    { name: "цене (ASC)", sortProperty: "-price" },
+
+    { name: "алфавиту (DESC)", sortProperty: "title" },
+    { name: "алфавиту (ASC)", sortProperty: "-title" }
+
+    ];
+
     const [open, setOpen] = useState(false);
-    const [popUpIndex, setPopUpIndex] = useState(0);
-    const sortName = sortFrom[popUpIndex];
+
     const [sortArrow, setSortArrow] = useState(false)
-    
+
     const clickPopUpIndex = (index) => {
-        setPopUpIndex(index, () => {
+        onClickSort(index, () => {
             setOpen(false);
         });
     };
@@ -21,7 +32,7 @@ function Sort() {
     return (
         <div>
             <div className="sort"
-                onClick={() => openPopUp()}
+                onClick={() => openPopUp(open)}
             >
                 <div className="sort__label">
                     <svg
@@ -38,18 +49,18 @@ function Sort() {
                         />
                     </svg>
                     <b>Сортировка по:</b>
-                    <span>{sortName}</span>
+                    <span>{sortValue.name}</span>
                 </div>
                 {open && (
                     <div className="sort__popup">
                         <ul>
-                            {sortFrom.map((sort, index) => (
+                            {sortFrom.map((obj, index) => (
                                 <li
                                     key={index}
-                                    className={index === popUpIndex ? "active" : ""}
-                                    onClick={() => clickPopUpIndex(index)}
+                                    className={sortValue.sortProperty === obj.sortProperty ? "active" : ""}
+                                    onClick={() => clickPopUpIndex(obj)}
                                 >
-                                    {sort}
+                                    {obj.name}
                                 </li>
                             ))}
                         </ul>
