@@ -32,9 +32,9 @@ function Home() {
     sortProperty: "raiting"
   });
 
-  const сlickCategory = (id) => {
-    dispatch(insertCategoryId(id))
-  }
+  const clickCategory = (id) => {
+    dispatch(insertCategoryId(id));
+  };
   useEffect(() => {
     setIsLoading(true);
 
@@ -60,7 +60,9 @@ function Home() {
     <>
       <div className="container">
         <div className="content__top">
-          <Categories value={CategoryId} сlickCategory = {сlickCategory} />
+
+        <Categories value={CategoryId} clickCategory={clickCategory} />
+
           <Sort sortValue={sortType} onClickSort={(i) => setSortType(i)} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
