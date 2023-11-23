@@ -60,7 +60,7 @@ function Home() {
     <>
       <div className="container">
         <div className="content__top">
-          <Categories value={CategoryId} сlickCategory={(i) =>сlickCategory(i)} />
+          <Categories value={CategoryId} сlickCategory = {сlickCategory} />
           <Sort sortValue={sortType} onClickSort={(i) => setSortType(i)} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
