@@ -1,13 +1,17 @@
 import React from 'react'
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
+import {useDispatch, useSelector} from 'react-redux'
 import PizzaBlock from "../components/PizzaBlock";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import { useEffect, useState, useContext } from "react";
 import Pagination from '../components/Pagination';
 import { appContext } from '../App';
-
+import {insertCategoryId} from '../redux/slices/filterSlice'
 function Home() {
+
+  const CategoryId = useSelector((state) => state.filter.CategoryId)
+  const dispatch = useDispatch()
   const {searchValue} = useContext(appContext)
   const [items, setItems] = useState([])
   const [page, setPage] = useState(1)
@@ -21,16 +25,16 @@ function Home() {
   }).map((obj, key) => (<PizzaBlock key={obj.id} {...obj} />))
 
 
-  const skeleton = [...new Array(6)].map((_, key) => 
-  <Skeleton key={key} />)
+  const skeleton = [...new Array(6)].map((_, key) => <Skeleton key={key} />)
   const [isLoading, setIsLoading] = useState(true)
-  const [CategoryId, setCategoryId] = useState(0)
   const [sortType, setSortType] = useState({
     name: "популярности",
     sortProperty: "raiting"
   });
 
-
+  const сlickCategory = (id) => {
+    dispatch(insertCategoryId(id))
+  }
   useEffect(() => {
     setIsLoading(true);
 
@@ -56,7 +60,7 @@ function Home() {
     <>
       <div className="container">
         <div className="content__top">
-          <Categories value={CategoryId} clickCategory={(i) => setCategoryId(i)} />
+          <Categories value={CategoryId} сlickCategory={(i) =>сlickCategory(i)} />
           <Sort sortValue={sortType} onClickSort={(i) => setSortType(i)} />
         </div>
         <h2 className="content__title">Все пиццы</h2>

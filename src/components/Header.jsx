@@ -8,7 +8,7 @@ function Header() {
         <div>
             <div className="header">
                 <div className="container">
-                <Link to="./home">
+                <Link to="./">
                     <div className="header__logo">
                         <img width="38" src={pizzaLogo} alt="Pizza logo" />
                         <div>
