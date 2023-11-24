@@ -16,7 +16,6 @@ function Home() {
   const { searchValue } = useContext(appContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
   const pizzas = items
   .filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
   .map((obj) => <PizzaBlock key={obj.id} {...obj} />);
@@ -25,10 +24,10 @@ function Home() {
   
   
   
-  const onChangeCategory = (id) => {
-    dispatch(insertCategoryId(id));
-  };
+  const onChangeCategory = (id) => dispatch(insertCategoryId(id))
+
   const onChangePage = number => dispatch(setCurrentPage(number))
+ 
    
   useEffect(() => {
     setIsLoading(true);
@@ -59,7 +58,7 @@ function Home() {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{isLoading ? skeleton : pizzas}</div>
-        <Pagination currentPage = {currentPage} onChangePage = {onChangePage}/>
+        <Pagination  currentPage = {currentPage}  onChangePage={onChangePage} />
       </div>
     </>
   );
